@@ -34,25 +34,29 @@ namespace AlarmClockTest
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
 
             // Set alarm name
-            session.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
-            session.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys(NewAlarmName);
+            //session.FindElementByAccessibilityId("EditFlyout").Clear();
+
+            session.FindElementByName("Alarm name").Clear();
+            session.FindElementByName("Alarm name").SendKeys(NewAlarmName);
 
             // Set alarm hour
-            WindowsElement hourSelector = session.FindElementByAccessibilityId("HourLoopingSelector");
-            hourSelector.FindElementByName("3").Click();
-            Assert.AreEqual("3", hourSelector.Text);
+            WindowsElement hourSelector = session.FindElementByAccessibilityId("HourPicker");
+            //hourSelector.FindElementByName("3").Click();
+            hourSelector.SendKeys("3");
+            Assert.AreEqual("03", hourSelector.Text);
 
             // Set alarm minute
-            WindowsElement minuteSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
-            minuteSelector.FindElementByName("55").Click();
+            WindowsElement minuteSelector = session.FindElementByAccessibilityId("MinutePicker");
+            //minuteSelector.FindElementByName("55").Click();
+            minuteSelector.SendKeys("55");
             Assert.AreEqual("55", minuteSelector.Text);
 
             // Save the newly configured alarm
-            session.FindElementByAccessibilityId("AlarmSaveButton").Click();
+            session.FindElementByAccessibilityId("SaveButton").Click();
             Thread.Sleep(TimeSpan.FromSeconds(3));
 
             // Verify that a new alarm entry is created with the given hour, minute, and name
-            WindowsElement alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{NewAlarmName}\")]");
+            WindowsElement alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"Edit alarm, {NewAlarmName}\")]");
             Assert.IsNotNull(alarmEntry);
             Assert.IsTrue(alarmEntry.Text.Contains("3"));
             Assert.IsTrue(alarmEntry.Text.Contains("55"));
@@ -69,16 +73,16 @@ namespace AlarmClockTest
         public void AlarmDelete()
         {
             WindowsElement alarmEntry = null;
-            
+
             // Check if an alarm entry has been created previously. Otherwise create one by calling AddAlarmEntry();
             try
             {
-                alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{NewAlarmName}\")]");
+                alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"Edit alarm, {NewAlarmName}\")]");
             }
             catch
             {
                 AlarmAdd();
-                alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{NewAlarmName}\")]");
+                alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"Edit alarm, {NewAlarmName}\")]");
             }
 
             Assert.IsNotNull(alarmEntry);
@@ -100,7 +104,7 @@ namespace AlarmClockTest
             {
                 try
                 {
-                    var alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{NewAlarmName}\")]");
+                    var alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"Edit alarm, {NewAlarmName}\")]");
                     session.Mouse.ContextClick(alarmEntry.Coordinates);
                     session.FindElementByName("Delete").Click();
                 }

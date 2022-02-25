@@ -31,6 +31,7 @@ namespace AlarmClockTest
         {
             int numberOfEntry = 8;
 
+            //
             // Start the stopwatch
             var stopwatchPlayPauseButton = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
             stopwatchPlayPauseButton.Click();
@@ -88,7 +89,7 @@ namespace AlarmClockTest
             // Start the stopwatch and verify that stopwatchPlayPauseButton changed from Start to Pause while stopwatchResetButton is hidden
             stopwatchPlayPauseButton.Click();
             Assert.AreEqual("Pause", stopwatchPlayPauseButton.Text);
-            Assert.IsFalse(stopwatchResetButton.Displayed);
+            Assert.IsFalse(stopwatchResetButton.Enabled);
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // Pause the stopwatch and verify that stopwatchPlayPauseButton switched back from Pause to Start while stopwatchResetButton is enabled

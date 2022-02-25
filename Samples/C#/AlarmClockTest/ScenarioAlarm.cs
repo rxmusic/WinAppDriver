@@ -34,20 +34,16 @@ namespace AlarmClockTest
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
 
             // Set alarm name
-            //session.FindElementByAccessibilityId("EditFlyout").Clear();
-
             session.FindElementByName("Alarm name").Clear();
             session.FindElementByName("Alarm name").SendKeys(NewAlarmName);
 
             // Set alarm hour
             WindowsElement hourSelector = session.FindElementByAccessibilityId("HourPicker");
-            //hourSelector.FindElementByName("3").Click();
             hourSelector.SendKeys("3");
             Assert.AreEqual("03", hourSelector.Text);
 
             // Set alarm minute
             WindowsElement minuteSelector = session.FindElementByAccessibilityId("MinutePicker");
-            //minuteSelector.FindElementByName("55").Click();
             minuteSelector.SendKeys("55");
             Assert.AreEqual("55", minuteSelector.Text);
 
